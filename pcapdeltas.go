@@ -16,12 +16,14 @@ func main() {
 	var handle *pcap.Handle
 	var err error
 
-	microPtr := flag.Bool("micro", false, "microseconds, without it all times are nanoseconds")
-	var div int64 = 1
-	if *microPtr {
-		div = 1000
-	}
+	nanoPtr := flag.Bool("n", false, "print times in nanoseconds, otherwise times are in microseconds")
+
 	flag.Parse()
+
+	var div int64 = 1000
+	if *nanoPtr == true {
+		div = 1
+	}
 
 	files := flag.Args()
 
