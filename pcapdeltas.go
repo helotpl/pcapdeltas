@@ -16,6 +16,11 @@ func main() {
 	var handle *pcap.Handle
 	var err error
 
+	microPtr := flag.Bool("micro", false, "microseconds, without it all times are nanoseconds")
+	var div int64 = 1
+	if *microPtr {
+		div = 1000
+	}
 	flag.Parse()
 
 	files := flag.Args()
@@ -36,7 +41,7 @@ func main() {
 			if last == nil {
 				last = &ts
 			} else {
-				deltas = append(deltas, strconv.FormatInt(ts.Sub(*last).Nanoseconds()/1000, 10))
+				deltas = append(deltas, strconv.FormatInt(ts.Sub(*last).Nanoseconds()/div, 10))
 				last = &ts
 			}
 		}
